@@ -2,11 +2,13 @@ package actor
 
 import model.{Company, ErrorResponse, President, SuccessfulResponse}
 import akka.actor.{Actor, ActorLogging, Props}
+
 import com.sksamuel.elastic4s.ElasticsearchClientUri
 import com.sksamuel.elastic4s.http.ElasticDsl._
 import com.sksamuel.elastic4s.http.index.CreateIndexResponse
 import com.sksamuel.elastic4s.http.{HttpClient, RequestFailure, RequestSuccess}
 import serializer.ElasticSerializer
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
@@ -30,6 +32,7 @@ class CompanyManager extends Actor with ActorLogging with ElasticSerializer{
   import CompanyManager._
 
   val client = HttpClient(ElasticsearchClientUri("localhost", 9200))
+
 
   def createEsIndex() = {
     val cmd: Future[Either[RequestFailure, RequestSuccess[CreateIndexResponse]]] =
